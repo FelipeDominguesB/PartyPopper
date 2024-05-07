@@ -24,7 +24,6 @@ public class PlayerScript : MonoBehaviour, IPawn
     public void Destroy()
     {
 
-        Console.WriteLine("Morreu, babaca!");
     }
 
     public void HealDamage(int damage)
@@ -99,7 +98,7 @@ public class PlayerScript : MonoBehaviour, IPawn
 
         if (currentPresses > 0)
         {
-            character.transform.position = new Vector3(character.transform.position.x + xMovement, character.transform.position.y + yMovement);
+            character.AddForce(new Vector2 (xMovement, yMovement), ForceMode2D.Force);
             character.transform.eulerAngles = new Vector3(character.transform.rotation.x, character.transform.rotation.y, rotationAngle/currentPresses);
         }
 
@@ -108,5 +107,13 @@ public class PlayerScript : MonoBehaviour, IPawn
 
         if(Input.GetKeyDown(KeyCode.Q))
             this.TakeDamage(1);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(collision.GetContact(0));
+
+        this.character.AddForce(new Vector2(50, 0), ForceMode2D.Impulse);
+
     }
 }
